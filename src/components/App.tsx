@@ -14,13 +14,32 @@ export class App extends React.Component<{}, IState> {
     e.preventDefault();
     this.setState({
       currentTask: '',
-      tasks: [...this.state.tasks, this.state.currentTask],
+      tasks: [
+        ...this.state.tasks,
+        {
+          id: this._timeInMilliseconds(),
+          value: this.state.currentTask,
+          completed: false,
+        },
+      ],
     });
   }
 
+  public deleteTask(id: number): void {
+    const filteredTasks: Array<ITask> = this.state.tasks.filter(
+      (task: ITask) => task.id !== id
+    );
+    this.setState({ tasks: filteredTasks });
+  }
+
   public renderTasks(): JSX.Element[] {
-    return this.state.tasks.map((task: string, index: number) => {
-      return <div key={index}>{task}</div>;
+    return this.state.tasks.map((task: ITask, index: number) => {
+      return (
+        <div key={task.id}>
+          <span>{task.value}</span>
+          <button onClick={() => this.deleteTask(task.id)}>Delete</button>
+        </div>
+      );
     });
   }
 
@@ -42,9 +61,20 @@ export class App extends React.Component<{}, IState> {
       </div>
     );
   }
+
+  private _timeInMilliseconds(): number {
+    const date: Date = new Date();
+    return date.getTime();
+  }
 }
 
 interface IState {
   currentTask: string;
-  tasks: Array<string>;
+  tasks: Array<ITask>;
+}
+
+interface ITask {
+  id: number;
+  value: string;
+  completed: boolean;
 }
