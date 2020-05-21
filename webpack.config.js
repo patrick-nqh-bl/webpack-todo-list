@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -18,12 +19,19 @@ module.exports = {
         test: /\.js$/,
         loader: 'source-map-loader',
       },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: ['css-loader', 'sass-loader'],
+        }),
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
+    new ExtractTextPlugin('style.css'),
   ],
   devtool: 'source-map',
   resolve: {
