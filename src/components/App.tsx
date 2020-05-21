@@ -10,7 +10,7 @@ export class App extends React.Component<{}, IState> {
     };
   }
 
-  handleSubmit(e: any) {
+  public handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     this.setState({
       currentTask: '',
@@ -18,7 +18,13 @@ export class App extends React.Component<{}, IState> {
     });
   }
 
-  render() {
+  public renderTasks(): JSX.Element[] {
+    return this.state.tasks.map((task: string, index: number) => {
+      return <div key={index}>{task}</div>;
+    });
+  }
+
+  public render(): JSX.Element {
     console.log(this.state);
     return (
       <div>
@@ -32,6 +38,7 @@ export class App extends React.Component<{}, IState> {
           />
           <button type='submit'>Add Task</button>
         </form>
+        <section>{this.renderTasks()}</section>
       </div>
     );
   }
