@@ -6,4 +6,4 @@ import './styles/style.scss';
 
 const ROOT = document.querySelector('.container');
 
-ReactDOM.render(<App name='Patrick' />, ROOT);
+ReactDOM.render(<App />, ROOT);
